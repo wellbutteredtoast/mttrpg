@@ -21,6 +21,15 @@ def main
     create_save_character
     # ./scripts/new_save.rb
   end
+  if menu_choice == 2
+    clear
+    puts "\nSave loading isn't implemented..."
+  end
+  if menu_choice == 3
+    puts "\nCredits are not yet implemented..."
+  end
+  if menu_choice == 4
+  end
 end
 
 if __FILE__ == $0

@@ -19,4 +19,8 @@ class player
     @x = new_x
     @y = new_y
   end
+
+  def display_info
+    # TODO: Implement
+  end
 end
