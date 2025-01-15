@@ -1,7 +1,9 @@
 require_relative './clear_console'
+require_relative './save_routines'
+require 'digest'
 
 def create_save_character
-  clear_console
+  clear
   puts "================================================\n"
   print "What is the heros name?\n\n:: "
   p_name = gets.chomp
@@ -15,7 +17,7 @@ def create_save_character
   if !valid_list.include?(p_difficulty)
     puts "Input #{p_difficulty} is not a valid selection..."
     sleep 0.5
-    clear_console
+    clear
     create_save_character
     # Yeah this makes you redo the character name, but this is step two...
     # I don't think retyping a name is the end of the world (yet)
@@ -87,7 +89,7 @@ def create_save_character
   end
 
   sleep 1.33
-  clear_console
+  clear
 
   # After a brief rest, the script will continue on and finalize some details
   # Once confirmed - we can write to the save and get things going
@@ -98,9 +100,24 @@ def create_save_character
   if finalized == 2
     puts "Returning to character creation..."
     sleep 1.5
-    clear_console
+    clear
     create_save_character
   elsif finalized == 1
     puts "\nConfirmed!"
   end
+
+  # Throw together some dummy data to fill out the yaml save
+  inv = Array.new(5) { Array.new(6) }
+
+  # Step 0: Write data + magic numbers into a single YAML document.
+  yml_data = encode_player_info_to_yaml(p_name, start_x, start_y, 100, 10, 5, 10, 100, inv, p_difficulty, difficulty_hostile_hp_mod, difficulty_hostile_atk_mod, difficulty_hostile_def_mod, difficulty_hostile_mp_mod, difficulty_hostile_xp_reward_mod, difficulty_hostile_coin_reward_mod)
+
+  # Step 1: Encode the YAML data to a very long base64 string.
+  # Step 1a: Create an md5 checksum for later use.
+  b64d_player_yaml = encode_yaml_to_b64(yml_data)
+  player_yml_md5 = Digest::MD5.hexdigest(yml_data)
+
+  # Step 2: Immediately write data to save and hurrah! Things are good!
+  write_b64_final_to_sav(b64d_player_yaml, player_yml_md5)
+
 end
