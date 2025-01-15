@@ -1,6 +1,6 @@
 # The player class, a fun mess!
 # Keep on top of this, it'll get weird fast
-class player
+class Player
   def initialize(name, x, y, hp, atk, df, mp)
     @name     = name
     @x        = x
@@ -21,6 +21,6 @@ class player
   end
 
   def display_info
-    # TODO: Implement
+    # TODO: Implement later...
   end
 end

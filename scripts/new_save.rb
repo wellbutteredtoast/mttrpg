@@ -1,5 +1,6 @@
 require_relative './clear_console'
 require_relative './save_routines'
+require_relative './game_loop'
 require 'digest'
 
 def create_save_character
@@ -119,5 +120,9 @@ def create_save_character
 
   # Step 2: Immediately write data to save and hurrah! Things are good!
   write_b64_final_to_sav(b64d_player_yaml, player_yml_md5)
+
+  # Upon everything being done and done, proceed to the loop!
+  clear
+  construct_player()
 
 end
